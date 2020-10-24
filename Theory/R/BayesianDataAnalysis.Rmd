@@ -1,0 +1,89 @@
+---
+title: "Bayesian Data Analysis"
+author: "Harish Mohanaselvam"
+date: "10/24/2020"
+output: html_document
+---
+
+### Bayesian Inference in a nutshell
+A method for figuring out un-observable quantities given known facts that uses probability to describe the uncertainty over what the values of the unknown quantities could be. 
+
+Bayesian Data Analysis
+1. The use of Bayesian inference to lean from data
+2. Can be used for hypothesis testing, linear regression, etc. 
+3. Is flexible and allow you to construct problem-specific models
+
+Chapter1: A small Bayesian analysis
+Chapter2: How Bayesian inference works
+chapter3: Why you would want to use Bayesian data analysis?
+chapter4: Wrapping up + practical tool for Bayesian Data Analysis in R
+
+## Unknowns and ice cream
+Bayesian inference is a method for figuring out unknown or un-observable given known facts. In the case of the Enigma machine, Alan Turing wanted to figure out
+the unknown settings of the wheels ans ultimately the meaning of the coded messages. 
+
+When analysis data, we are also interested in learning about unknown quantities. For example, say that we are interested in how daily ice cream sales relate to the temperature, and we decide the use of linear regression to investigate this. 
+
+Which of the following quantities could be considered unknown in this case? 
+1. The slope of the underlying regression line
+2. How many ice cream sales vary on days with a similar temperature?
+3. How many ice cream we will sell tomorrow given a forecast of 27C?
+
+### Background
+Probability
+- A number between 0 and 1
+- A statement about certainty/ uncertainty
+- 1 is complete certainly something is the case
+- O is complete certainly something is not the case
+- Not only about the yes/no events
+
+A Bayesian model for the proportion of success
+Flows -->> 
+prop_model(data)
+- The data is a vector of successes and failures represented by 1s and 0s
+- There is an unknown underlying proportion of success
+- If data point is a success is only affected by this proportion
+- Prior to seeing any data, any underlying proportion of success is equally likely
+- The result is a probability distribution that represents what the model knows about the underlying proportion of success
+
+### Coin flips with prop_model
+The function prop_model has been loaded into your workplace. It implements a Bayesian model that assumes that:
+- The data is a vector of successes and failure represented by 1s and 0s
+- There is an unknown underlying proportion of success
+- Prior to being updated with data any underlying proportion of success is equally likely.
+
+Assume you just flipped a coin four times and the result was heads, tails, tails, heads. If you code heads as a success and tails
+as a failure then the following R code runs prop_model with the data.
+
+Looking at the final probability distribution at n=4, what information does the model have regarding the underlying proportion of head? 
+- it's mostly likely around 50%, but there is large uncertainly
+
+### Zombie drugs with prop_model
+If we really were interested in the underlying proportion of heads of the coin then prop_model isn't partially useful. 
+Since it assumes that any underlying proportion of success is equally likely prior to seeing any data it will take a lot of coin flipping to convince
+prop_model that the coin is fair. This model is more appropriate in a situation where we have little background knowledge about the underlying 
+proportion of success. 
+
+Let's say the zombie apocalypse is upon us and we have come up with a new experiment drug to cure zombies. We have no clue how effective it's going to be, but when we gave it to 13 zombies two of them turned humans again. 
+
+- Change the data argument to prop_model to estimate the underlying proportion of success of curing a zombie. 
+
+The model implemented is pop_model makes more sense here as we had no clue how good the drug would be. The final probability distribution (at n=13)
+represents what the model now knows about the underlying proportion of cured zombies. What proportion of zombies would we expect to turn human if we
+administered this new drug to the whole zombie population
+- between 5% to 40%
+
+# Prior and Posterior
+- A prior is a probability distribution that represents what the model knows before seeing the data
+- A posterior is a probability distribution that represents what the model knows after having seen the data
+
+### Looking at samples from prop_model
+Here again is the prop_model function which has been given the data from our zombie experiment where two out of 13 zombies got cured. 
+In addition to producing a plot prop_model also returns a large amount sample from the posterior over the underlying proportion of success
+
+
+
+```{r}
+summary(cars)
+```
+
