@@ -2,7 +2,7 @@
 title: "Bayesian Data Analysis"
 author: "Harish Mohanaselvam"
 date: "10/24/2020"
-output: html_document
+output: rmarkdown::github_document
 ---
 
 ### Bayesian Inference in a nutshell

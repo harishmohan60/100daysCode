@@ -1,0 +1,342 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Bayesian Data Analysis},
+  pdfauthor={Harish Mohanaselvam},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Bayesian Data Analysis}
+\author{Harish Mohanaselvam}
+\date{10/24/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{bayesian-inference-in-a-nutshell}{%
+\subsubsection{Bayesian Inference in a
+nutshell}\label{bayesian-inference-in-a-nutshell}}
+
+A method for figuring out un-observable quantities given known facts
+that uses probability to describe the uncertainty over what the values
+of the unknown quantities could be.
+
+Bayesian Data Analysis 1. The use of Bayesian inference to lean from
+data 2. Can be used for hypothesis testing, linear regression, etc. 3.
+Is flexible and allow you to construct problem-specific models
+
+Chapter1: A small Bayesian analysis Chapter2: How Bayesian inference
+works chapter3: Why you would want to use Bayesian data analysis?
+chapter4: Wrapping up + practical tool for Bayesian Data Analysis in R
+
+\hypertarget{unknowns-and-ice-cream}{%
+\subsection{Unknowns and ice cream}\label{unknowns-and-ice-cream}}
+
+Bayesian inference is a method for figuring out unknown or un-observable
+given known facts. In the case of the Enigma machine, Alan Turing wanted
+to figure out the unknown settings of the wheels ans ultimately the
+meaning of the coded messages.
+
+When analysis data, we are also interested in learning about unknown
+quantities. For example, say that we are interested in how daily ice
+cream sales relate to the temperature, and we decide the use of linear
+regression to investigate this.
+
+Which of the following quantities could be considered unknown in this
+case? 1. The slope of the underlying regression line 2. How many ice
+cream sales vary on days with a similar temperature? 3. How many ice
+cream we will sell tomorrow given a forecast of 27C?
+
+\hypertarget{background}{%
+\subsubsection{Background}\label{background}}
+
+Probability - A number between 0 and 1 - A statement about certainty/
+uncertainty - 1 is complete certainly something is the case - O is
+complete certainly something is not the case - Not only about the yes/no
+events
+
+A Bayesian model for the proportion of success Flows
+--\textgreater\textgreater{} prop\_model(data) - The data is a vector of
+successes and failures represented by 1s and 0s - There is an unknown
+underlying proportion of success - If data point is a success is only
+affected by this proportion - Prior to seeing any data, any underlying
+proportion of success is equally likely - The result is a probability
+distribution that represents what the model knows about the underlying
+proportion of success
+
+\hypertarget{coin-flips-with-prop_model}{%
+\subsubsection{Coin flips with
+prop\_model}\label{coin-flips-with-prop_model}}
+
+The function prop\_model has been loaded into your workplace. It
+implements a Bayesian model that assumes that: - The data is a vector of
+successes and failure represented by 1s and 0s - There is an unknown
+underlying proportion of success - Prior to being updated with data any
+underlying proportion of success is equally likely.
+
+Assume you just flipped a coin four times and the result was heads,
+tails, tails, heads. If you code heads as a success and tails as a
+failure then the following R code runs prop\_model with the data.
+
+Looking at the final probability distribution at n=4, what information
+does the model have regarding the underlying proportion of head? - it's
+mostly likely around 50\%, but there is large uncertainly
+
+\hypertarget{zombie-drugs-with-prop_model}{%
+\subsubsection{Zombie drugs with
+prop\_model}\label{zombie-drugs-with-prop_model}}
+
+If we really were interested in the underlying proportion of heads of
+the coin then prop\_model isn't partially useful. Since it assumes that
+any underlying proportion of success is equally likely prior to seeing
+any data it will take a lot of coin flipping to convince prop\_model
+that the coin is fair. This model is more appropriate in a situation
+where we have little background knowledge about the underlying
+proportion of success.
+
+Let's say the zombie apocalypse is upon us and we have come up with a
+new experiment drug to cure zombies. We have no clue how effective it's
+going to be, but when we gave it to 13 zombies two of them turned humans
+again.
+
+\begin{itemize}
+\tightlist
+\item
+  Change the data argument to prop\_model to estimate the underlying
+  proportion of success of curing a zombie.
+\end{itemize}
+
+The model implemented is pop\_model makes more sense here as we had no
+clue how good the drug would be. The final probability distribution (at
+n=13) represents what the model now knows about the underlying
+proportion of cured zombies. What proportion of zombies would we expect
+to turn human if we administered this new drug to the whole zombie
+population - between 5\% to 40\%
+
+\hypertarget{prior-and-posterior}{%
+\section{Prior and Posterior}\label{prior-and-posterior}}
+
+\begin{itemize}
+\tightlist
+\item
+  A prior is a probability distribution that represents what the model
+  knows before seeing the data
+\item
+  A posterior is a probability distribution that represents what the
+  model knows after having seen the data
+\end{itemize}
+
+\hypertarget{looking-at-samples-from-prop_model}{%
+\subsubsection{Looking at samples from
+prop\_model}\label{looking-at-samples-from-prop_model}}
+
+Here again is the prop\_model function which has been given the data
+from our zombie experiment where two out of 13 zombies got cured. In
+additional to producing a plot, prop\_model also returns a large random
+sample from the posterior over the underlying proportion of success.
+
+Assign the return value of prop\_model to a variable called posterior
+and take a look at the first number of samples using the command
+head(posterior)
+
+Looking at these first few samples confirms what is already show in the
+plot. That the underlying proportion of cured Zombies is likely
+somewhere between 5\% and 50\%. But these were just the first six
+samples in posterior which currently contain 10,000 samples (the default
+of prop\_model). - Take a look at the distribution of all the samples in
+posterior by plotting it as a histogram using the hist() function with
+posterior as the fist argument
+
+Compare this histogram to the plot produced directly by prop\_model
+(you'll find it if you go to the previous plot in the Plots tab). You
+should notice that histogram and the posterior distribution (at n = 13)
+describes the same distribution.
+
+OK, so you got a vector of samples from prop\_model and confirmed that
+they are so good representation of the posterior distribution. What have
+you gained by doing this? So far, not much, but the next exercise will
+show you some examples of why samples are so convenient to work with.
+But before tou leave:
+
+\hypertarget{summarizing-the-zombie-drug-experiments}{%
+\subsubsection{Summarizing the zombie drug
+experiments}\label{summarizing-the-zombie-drug-experiments}}
+
+The point of working this samples from a probability distribution is
+that it makes it easy to calculate new measures if interest. The
+following tasks are about doing just this!
+
+A point estimate is a single number used to summarize what's known about
+a parameter of interest. It can be seen as a ``best guess'' of the value
+of the parameter. A commonly used point estimate is the median of the
+posterior. It's the midpoint of the distribution, and it's equally
+probably for the distribution, and it's equally probably for the
+parameter value to be larger than the median as it is to be smaller that
+it.
+
+So, a best guess is that the drug would care around 18\% of all zombies.
+Another common summary is to report an interval that includes the
+parameter of interest with a certain probability. This is called a
+credible interval (CI). With a posterior represented as a vector of
+samples you can calculate a CI using the Quantile() function.
+
+quantile() takes the vector of samples as its first argument and the
+second argument is a vector defining how much probability should be left
+below and above the CI. For example, the vector c(0.05, 0.95) would
+yield a 90\% CI and c(0.25, 0.75)would yield a 50\% CI.
+
+According to the credible interval, there is a 90\% probability that the
+proportion of zombies the drug would cure is between 6\% and 38\%. (Here
+we have to be careful to remember that the percentage of cured zombies
+and the percentage of probability are two different things.)
+
+Now, there is a rival zombies lab that is also working on a drug. They
+claim that they are certain that their drug cures 7\% of the zombies
+it's administered to. Can we calculate how probable it is that our drug
+is better? Yes, we can! But it's a two stage process.
+
+\begin{itemize}
+\tightlist
+\item
+  First, use the sum to count how many samples in posterior that are
+  larger than 7\%. Do this by giving posterior \textgreater{} 0.07 as
+  the argument to sum.
+\item
+  To turn this count into a probability we now need to normalize it,
+  that is, divide it by the total number of samples in posterior.
+\item
+  Divide the result of sum by the number of samples in posterior
+\item
+  You can get the number of samples in posterior using the length
+  function
+\end{itemize}
+
+The result in a journal Given the data of two cured and 11 relapsed
+zombies, and using the Bayesian model described before, there is a 90\%
+probability that our drug cures between 6\% and 39\% of treated zombies.
+Further, there is 93\% probability that our drug cures zombies at a
+higher rate than the current state of the art drug.
+
+Bayesian Inference - Data - Generative model - Priors
+
+What is a generative model? Its any kind of computer program,
+mathematical expression, or set of rules that you can feed fixed
+paramete values and that you can use to generate simulated data- Uniform
+distribution
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Parameters}
+\NormalTok{prop\_success <{-}}\StringTok{ }\FloatTok{0.15}
+\NormalTok{n\_zombies <{-}}\StringTok{ }\DecValTok{13}
+
+\CommentTok{\# Simulating data}
+\NormalTok{data <{-}}\StringTok{ }\KeywordTok{c}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{(zombies }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{n\_zombies)\{}
+\NormalTok{  data[zombies] <{-}}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{min=}\DecValTok{0}\NormalTok{, }\DataTypeTok{max =} \DecValTok{1}\NormalTok{) }\OperatorTok{<}\StringTok{ }\NormalTok{prop\_success}
+\NormalTok{\}}
+
+\NormalTok{data <{-}}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(data)}
+\KeywordTok{print}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 0 0 0 1 0 0 0 0 0 0 0 0 0
+\end{verbatim}
+
+\end{document}
