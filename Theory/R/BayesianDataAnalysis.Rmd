@@ -78,12 +78,71 @@ administered this new drug to the whole zombie population
 - A posterior is a probability distribution that represents what the model knows after having seen the data
 
 ### Looking at samples from prop_model
-Here again is the prop_model function which has been given the data from our zombie experiment where two out of 13 zombies got cured. 
-In addition to producing a plot prop_model also returns a large amount sample from the posterior over the underlying proportion of success
+Here again is the prop_model function which has been given the data from our zombie experiment where two out of 13 zombies got cured. In additional
+to producing a plot, prop_model also returns a large random sample from the posterior over the underlying proportion of success. 
+
+Assign the return value of prop_model to a variable called posterior and take a look at the first number of samples using the command head(posterior)
+
+Looking at these first few samples confirms what is already show in the plot. That the underlying proportion of cured Zombies is likely somewhere between 
+5% and 50%. But these were just the first six samples in posterior which currently contain 10,000 samples (the default of prop_model). 
+- Take a look at the distribution of all the samples in posterior by plotting it as a histogram using the hist() function with posterior as the fist argument
+
+Compare this histogram to the plot produced directly by prop_model (you'll find it if you go to the previous plot in the Plots tab). You should notice that 
+histogram and the posterior distribution (at n = 13) describes the same distribution. 
+
+OK, so you got a vector of samples from prop_model and confirmed that they are so good representation of the posterior distribution. What have you gained by doing this? So far, not much, but the next exercise will show you some examples of why samples are so convenient to work with. But before tou leave:
+
+### Summarizing the zombie drug experiments 
+The point of working this samples from a probability distribution is that it makes it easy to calculate new measures if interest. The following tasks are about doing just this! 
+
+A point estimate is a single number used to summarize what's known about a parameter of interest. It can be seen as a "best guess" of the value of the parameter. A commonly used point estimate is the median of the posterior. It's the midpoint of the distribution, and it's equally probably for the distribution, and it's equally probably for the parameter value to be larger than the median as it is to be smaller that it. 
+
+So, a best guess is that the drug would care around 18% of all zombies. Another common summary is to report an interval that includes the parameter
+of interest with a certain probability. This is called a credible interval (CI). With a posterior represented as a vector of samples you can calculate a CI using the Quantile() function.
+
+quantile() takes the vector of samples as its first argument and the second argument is a vector defining how much probability should be left below and above the CI. For example, the vector c(0.05, 0.95) would yield a 90% CI and c(0.25, 0.75)would yield a 50% CI. 
+
+According to the credible interval, there is a 90% probability that the proportion of zombies the drug would cure is between 6% and 38%. (Here we have to be careful to remember that the percentage of cured zombies and the percentage of probability are two different things.)
+
+Now, there is a rival zombies lab that is also working on a drug. They claim that they are certain that their drug cures 7% of the zombies it's administered to. Can we calculate how probable it is that our drug is better? Yes, we can! But it's a two stage process. 
+
+- First, use the sum to count how many samples in posterior that are larger than 7%. Do this by giving posterior > 0.07 as the argument to sum.
+- To turn this count into a probability we now need to normalize it, that is, divide it by the total number of samples in posterior. 
+- Divide the result of sum by the number of samples in posterior
+- You can get the number of samples in posterior using the length function
+
+The result in a journal
+Given the data of two cured and 11 relapsed zombies, and using the Bayesian model described before, there is a 90% probability that our drug cures between 6% and 39% of treated zombies. Further, there  is 93% probability that our drug cures zombies at a higher rate than the current state of the art drug. 
 
 
+Bayesian Inference
+- Data
+- Generative model 
+- Priors
+
+What is a generative model? 
+Its any kind of computer program, mathematical expression, or set of rules that you can feed fixed paramete values and that you can use to generate simulated data- Uniform distribution
 
 ```{r}
-summary(cars)
+# Parameters
+prop_success <- 0.15
+n_zombies <- 13
+
+# Simulating data
+data <- c()
+for(zombies in 1:n_zombies){
+  data[zombies] <- runif(1, min=0, max = 1) < prop_success
+}
+
+data <- as.numeric(data)
+print(data)
 ```
+
+```{r}
+
+
+
+```
+
+
 
