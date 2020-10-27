@@ -244,8 +244,192 @@ This does;t look at all like the uniform distribution between 0.0 and 0.2 we put
 Looking at the probability distribution over proportion_clicks what does the model know about the underlying proportion of visitor clicking on the ad?
 Its likely between 7% and 19%
 
+### How many visitors could your site get(3)?
+In the last exercise, you updated the probability distribution over the underlying proportions of clicks (proportion_clicks) using the new data. Now we want to use this updated proportion_clicks to predict how many visitors we would get if we reran the ad camping. 
+
+The result from the last exercise is still in the data frame posterior, but if you at posterior$n_visitor you'll see it's just 13  repeated over and over again. This makes sense as posterior represents what the model knew about the outcome of the last ad campaign after having seen the data.
+
+- Assign posterior to a new variable called prior which will represent the uncertainly regarding the new ad campaign you haven't run yet. 
+- Take a look at the first rows in prior using the head() function
+- While proportion_clicks represents the uncertainly regarding the underlying proportion of clicks for the next ad campaign. n_visitors has not been updated yet. 
+  - Replace prior$n_visitors with a new sample drawn using rbinom with prior$proportion_clicks as an argument
+  - plot the resulting prior$n_visitors using hist
+  
+According to the new model the probability of getting five or more visitor is 99%
 
 
+```{r}
+# Assign posterior to a new variable called prior
+prior <- posterior
+
+# Take a look at the first rows in prior
+head(prior)
+
+# Replace prior$n_visitors with a new sample and visualize the result
+n_samples <-  nrow(prior)
+n_ads_shown <- 100
+prior$n_visitors <- rbinom(n_samples, size = n_ads_shown,
+                           prob = prior$proportion_clicks)
+hist(prior$n_visitors)
+
+# Calculate the probability that you will get 5 or more visitors
+sum(prior$n_visitors >= 5)/length(prior$n_visitors)
+
+
+```
+
+### Explore using the Beta distribution as a prior
+The Beta distribution is useful probability distribution when you want model uncertainly over a parameter bounded between 0 and 1. Here you'll explore how the two parameters of the beta distribution its shape. 
+
+One way to see how the shape parameters of the Beta distribution affect its shape is to generate a large number of random draws using the beta(n, shape1, shape2) function and visualize these as a histogram. The code to the right generates, 1,000,000 draws from a beta(1,1) distribution
+
+### Pick the prior that best capatures the information
+The new information you got from the social media company was:
+Most ads get clicked on 5% of the time, but for some ads it is as low as 2% and for other as high as 8% 
+There are many different probability distributions that one can argue captures this information. 
+- Out of the four Beta distribution shown below, which captures this information the best?
+
+```{r Beta distribution}
+hist(rbeta(n = 1000000, shape1=3, shape2=12))
+hist(rbeta(n = 1000000, shape1=15, shape2=75))
+hist(rbeta(n = 1000000, shape1=5, shape2=95)) 
+hist(rbeta(n = 1000000, shape1=30, shape2=10))
+
+
+```
+### Why use Bayesian data analysis
+- You can include information source in addition to the data
+- You can make any comparisons between groups or datasets
+- You can use the result of a Bayesian analysis to do Decision Analysis
+- You can change the underlying statistical model
+
+### Change the model to use as informative prior
+The code to the right is the old model you developed from scratch in chapter 2
+- Change this model to use the new informative prior for proportion_clicks that you just selected. 
+
+```{r Informative prior}
+# Change the prior on proportion_click
+n_draws = 1000000
+
+
+proportion_clcks <- rbeta(n_draws, shape1=5, shape2=95)
+
+n_visitors <- rbinom(n_draws, size= n_ads_shown, prob = proportion_clcks)
+
+prior <- data.frame(proportion_clcks, n_visitors)
+
+posterior <- prior[prior$n_visitors == 13, ]
+
+
+# plot prior and the posterior distribution
+par(mfcol = c(2,1))
+hist(prior$proportion_clcks, xlim = c(0, 0.25))
+hist(posterior$proportion_clcks, xlim = c(0, 0.25))
+
+```
+Due to the new informative prior it has shifted to the left, favoring lower rates. 
+
+### Fit the model using another dataset
+Let's fit the binomial model to both the video ad data (13 out of 100 clicked) and the new text ad data (6 out of a 100 clickes)
+
+```{r Fit model using another dataset}
+
+# Define parameters 
+n_draws <- 100000 
+n_ads_shown <- 100 
+proportion_clcks <- runif(n_draws, min =  0.0, max = 0.2)
+n_visitors <- rbinom(n = n_draws, size = n_ads_shown, prob= proportion_clicks)
+
+prior <- data.frame(proportion_clicks, n_visitors)
+
+# Create the posteriors for video and text ads
+posterior_video <- prior[prior$n_visitors == 13, ]
+posterior_text <- prior[prior$n_visitors == 6,]
+
+# Visualize the posteriors
+hist(posterior_video$proportion_clicks, xlim = c(0, 0.25))
+hist(posterior_text$proportion_clicks, xlim = c(0, 0.25))
+
+# Calculate the posterior difference: video_prop - text_prop
+
+posterior <- data.frame(
+  video_prop = posterior_video$proportion_clicks[1:4000],
+  text_prop = posterior_text$proportion_clicks[1:4000],
+  prop_diff = posterior_video$proportion_clicks[1:4000] - posterior_text$proportion_clicks[1:4000]
+)
+
+# Visualize prop_diff
+
+hist(posterior$prop_diff)
+
+# Calculate the mean of prop_diff
+
+median(posterior$prop_diff)
+
+# Calculate the proportion
+sum(posterior$prop_diff > 0) /length(posterior$prop_diff)
+
+
+```
+### Decision Analysis
+
+```{r Probability Distribution}
+
+video_cost <- 0.25
+text_cost <- 0.05
+visitor_spend <- 2.53
+
+posterior$video_profit <- posterior$video_prop * visitor_spend - video_cost
+posterior$text_profit <- posterior$text_prop * visitor_spend - text_cost
+posterior$profit_diff <- posterior$video_profit - posterior$text_profit
+
+
+posterior
+
+# Visualize the video_profit, text_profit  and profit_diffcolumns
+hist(posterior$video_profit)
+hist(posterior$text_profit)
+hist(posterior$profit_diff)
+
+# Calculate a "best guess" for the difference in profits
+median(posterior$profit_diff)
+
+
+# Calculate the probability that text ads are better than video ads
+sum(posterior$profit_diff < 0)/length(posterior$profit_diff) 
+
+
+```
+Even though text ads get a lower proportion of clicks, they are also much cheaper. And, as you have calculated, there is a 63% probability that text ads are better. 
+
+### Completely switch out the bionomal model
+- Why? Well, you have some new data
+- A banner ad for your site
+- You don't pay per view, you pay per day
+- A trial resulted in 19 clicks in a day
+- How many daily site visits, should we expect, on average, if we pay for this banner?
+
+Now it's obvious that the binomial model won't directly work here, it models the number of successes out of total number of shown ads, but now the ad is shown all the time, and we just have the daily count. 
+
+A model for counts per day
+- split the day into 1440 minutes
+- What proportion od minutes results in a click on the ad? 
+- Split the day into 86000 seconds
+- What proportion of seconds results in a click on the ad?
+- Split the day into 8640000 milliseconds
+- What proportion of milliseconds results in a click on the ad?
+- split the day into infinite parts
+
+This process is called poisson distribution
+- One parameter: The mean number of events per time unit.
+- rpois samples from the Possion distribution
+
+```{r}
+n_clicks <- rpois(n=100000, lambda = 20)
+
+hist(n_clicks)
+
+```
 
 
 
